@@ -1,17 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>Reaction timer</h1>
+  <button @click="play">Play</button>
+  <Block v-if="isPlaying" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Block from "./components/Block";
+import Result from "./components/Result";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { Block, Result },
+  data() {
+    return {
+      isPlaying: false,
+    };
+  },
+  methods: {
+    play() {
+      this.isPlaying = true;
+    },
+  },
+};
 </script>
 
 <style>
@@ -22,5 +31,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+button {
+  width: 100px;
 }
 </style>
