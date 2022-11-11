@@ -1,7 +1,8 @@
 <template>
   <h1>Reaction timer</h1>
-  <button @click="play">Play</button>
-  <Block v-if="isPlaying" />
+  <button @click="play" ref="btn" :disable="isPlaying">Play</button>
+  <Block v-if="isPlaying" @terminate="getResult" />
+  <Result v-if="terminate" :ReactionTime="result" />
 </template>
 
 <script>
@@ -13,11 +14,29 @@ export default {
   data() {
     return {
       isPlaying: false,
+      terminate: false,
+      delay: this.getDelay(),
+      result: 0,
     };
   },
   methods: {
+    getDelay() {
+      return 1000 + Math.random() * 3000;
+    },
+
     play() {
-      this.isPlaying = true;
+      this.terminate = false;
+      this.$refs.btn.classList.add("disable");
+      setTimeout(() => {
+        this.isPlaying = true;
+      }, this.delay);
+    },
+
+    getResult(result) {
+      this.$refs.btn.classList.remove("disable");
+      this.isPlaying = false;
+      this.terminate = true;
+      this.result = result;
     },
   },
 };
@@ -38,5 +57,14 @@ export default {
 }
 button {
   width: 100px;
+  background-color: green;
+  color: white;
+  border-style: none;
+  padding: 7px;
+  border-radius: 5px;
+}
+.disable {
+  background-color: gray;
+  cursor: not-allowed;
 }
 </style>
